@@ -40,6 +40,9 @@ jobs:
         pwd
         ls
         python ./superlist/manage.py runserver &
-    - name: Test with pytest
+    - name: Unit tests by Django test
+      run: |
+        python ./superlist/manage.py test lists
+    - name: Functional test with pytest
       run: |
         pytest ./superlist/functional_tests.py
