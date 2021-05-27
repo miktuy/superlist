@@ -35,6 +35,16 @@ class NewVisitorTest(unittest.TestCase):
         rows = table.find_elements_by_tag_name('tr')
         self.assertIn('1: Buy ostrich plum', [row.text for row in rows])
 
+        input_box = self.browser.find_element_by_id('id-new-item')
+        input_box.send_keys('Produce bead from ostrich plum')
+        input_box.send_keys(Keys.ENTER)
+        time.sleep(1)  # ToDo: REMOVE THIS SHIT IN FUTURE!!!
+
+        table = self.browser.find_element_by_id('id-list-table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn('1: Buy ostrich plum', [row.text for row in rows])
+        self.assertIn('2: Produce bead from ostrich plum', [row.text for row in rows])
+
         # self.fail('Stop test!')
 
 
