@@ -43,6 +43,9 @@ jobs:
     - name: Unit tests by Django test
       run: |
         python ./superlist/manage.py test lists
+    - name: Migrate db
+      run: |
+        python ./superlist/manage.py migrate
     - name: Functional test with pytest
       run: |
         pytest ./superlist/functional_tests.py
