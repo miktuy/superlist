@@ -1,6 +1,6 @@
 import time
-import unittest
 
+from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
@@ -9,7 +9,7 @@ chrome_options.add_argument("--headless")
 chrome_options.add_argument("--no-sandbox")
 
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.Chrome(options=chrome_options)
 
@@ -17,7 +17,7 @@ class NewVisitorTest(unittest.TestCase):
         self.browser.quit()
 
     def test_can_start_a_list_and_retrieve_in_later(self):
-        self.browser.get("http://localhost:8000")
+        self.browser.get(self.live_server_url)
         self.assertIn("To-Do", self.browser.title)
         header_text = self.browser.find_element_by_tag_name("h1").text
         self.assertIn('To-Do', header_text)
@@ -47,7 +47,3 @@ class NewVisitorTest(unittest.TestCase):
         table = self.browser.find_element_by_id('id-list-table')
         rows = table.find_elements_by_tag_name('tr')
         self.assertIn(row_text, [row.text for row in rows])
-
-
-if __name__ == "__main__":
-    unittest.main(warnings="ignore")
