@@ -12,7 +12,7 @@ def home_page(request: HttpRequest):
 
 def view_list(request: HttpRequest, list_id: str):
     list_: List = List.objects.get(id=list_id)
-    items: TList[Item] = Item.objects.filter(list=list_)
+    Item.objects.filter(list=list_)
     return render(request, "list.html", {"list": list_})
 
 
