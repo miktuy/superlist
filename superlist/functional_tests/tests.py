@@ -83,7 +83,6 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertNotIn('Buy peacock plum', page_text)
         self.assertIn('Buy milk', page_text)
 
-
     def list_table_should_contain_row(self, row_text: str):
         self._wait_for_condition(
             EC.visibility_of_element_located, (By.ID, "id-list-table"), "isn't visible"
