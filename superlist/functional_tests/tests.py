@@ -60,7 +60,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.list_table_should_contain_row("1: Buy peacock plum")
 
         user_url = self.browser.current_url
-        self.assertRegex(user_url, '/list/.+')
+        self.assertRegex(user_url, '/lists/.+')
 
         self.browser.quit()
         self.browser = webdriver.Chrome(options=chrome_options)
@@ -76,7 +76,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.list_table_should_contain_row("1: Buy milk")
 
         new_user_url = self.browser.current_url
-        self.assertRegex(new_user_url, '/list/.+')
+        self.assertRegex(new_user_url, '/lists/.+')
         self.assertNotEqual(new_user_url, user_url)
 
         page_text = self.browser.find_element_by_tag_name('body').text
