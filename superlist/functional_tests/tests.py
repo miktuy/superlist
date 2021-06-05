@@ -52,6 +52,38 @@ class NewVisitorTest(LiveServerTestCase):
 
         # self.fail('Stop test!')
 
+    def test_multiple_users_can_start_lists_at_different_urls(self):
+        self.browser.get(self.live_server_url)
+        input_box = self.browser.find_element_by_id("id-new-item")
+        input_box.send_keys("Buy peacock plum")
+        input_box.send_keys(Keys.ENTER)
+        self.list_table_should_contain_row("1: Buy peacock plum")
+
+        user_url = self.browser.current_url
+        self.assertRegex(user_url, '/list/.+')
+
+        self.browser.quit()
+        self.browser = webdriver.Chrome(options=chrome_options)
+
+        self.browser.get(self.live_server_url)
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('Buy peacock plum', page_text)
+        self.assertNotIn('Produce bead from ostrich plum', page_text)
+
+        input_box = self.browser.find_element_by_id("id-new-item")
+        input_box.send_keys("Buy milk")
+        input_box.send_keys(Keys.ENTER)
+        self.list_table_should_contain_row("1: Buy milk")
+
+        new_user_url = self.browser.current_url
+        self.assertRegex(new_user_url, '/list/.+')
+        self.assertNotEqual(new_user_url, user_url)
+
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('Buy peacock plum', page_text)
+        self.assertIn('Buy milk', page_text)
+
+
     def list_table_should_contain_row(self, row_text: str):
         self._wait_for_condition(
             EC.visibility_of_element_located, (By.ID, "id-list-table"), "isn't visible"
