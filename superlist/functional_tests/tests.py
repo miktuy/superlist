@@ -1,7 +1,6 @@
-import time
 from typing import Tuple, Any, Callable, Union, List
 
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
@@ -20,12 +19,33 @@ MAX_WAIT_S = 10
 POLL_FREQUENCY_S = 0.1
 
 
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.Chrome(options=chrome_options)
 
     def tearDown(self):
         self.browser.quit()
+
+    def test_layout_and_styling(self):
+        self.browser.get(self.live_server_url)
+        self.browser.set_window_size(1024, 768)
+
+        input_box = self.browser.find_element_by_id("id-new-item")
+        self.assertAlmostEqual(
+            input_box.location['x'] + input_box.size['width'] / 2,
+            512,
+            delta=10
+        )
+
+        input_box.send_keys("testing")
+        input_box.send_keys(Keys.ENTER)
+        self.list_table_should_contain_row("1: testing")
+        input_box = self.browser.find_element_by_id("id-new-item")
+        self.assertAlmostEqual(
+            input_box.location['x'] + input_box.size['width'] / 2,
+            512,
+            delta=10
+        )
 
     def test_can_start_a_list_and_retrieve_in_later(self):
         self.browser.get(self.live_server_url)
