@@ -1,7 +1,6 @@
-import time
 from typing import Tuple, Any, Callable, Union, List
 
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
@@ -20,7 +19,7 @@ MAX_WAIT_S = 10
 POLL_FREQUENCY_S = 0.1
 
 
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.Chrome(options=chrome_options)
 
