@@ -1,3 +1,4 @@
+import os
 from typing import Tuple, Any, Callable, Union, List
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
@@ -22,6 +23,9 @@ POLL_FREQUENCY_S = 0.1
 class NewVisitorTest(StaticLiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.Chrome(options=chrome_options)
+        staging_server = os.environ.get('STAGING_SERVER')
+        if staging_server:
+            self.live_server_url = 'http://' + staging_server
 
     def tearDown(self):
         self.browser.quit()
