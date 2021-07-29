@@ -19,7 +19,10 @@ def _get_latest_source(source_folder):
 
 
 def _update_virtualenv(source_folder):
-    pass
+    venv_folder = f"{source_folder}/../venv"
+    if not exists(f"{venv_folder}/bin/pip"):
+        run(f"python3 -m venv {venv_folder}")
+    run(f"{venv_folder}/bin/pip install -r {source_folder}/requirements.txt")
 
 
 def _update_settings(source_folder, host):
