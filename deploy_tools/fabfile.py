@@ -4,7 +4,7 @@ from fabric.api import env, local, run
 REPO_URL = "https://github.com/miktuy/superlist.git"
 
 
-def _create_directory_structure_if_necessasy(site_folder):
+def _create_directory_structure_if_necessary(site_folder):
     for subfolder in ("database", "static", "venv", "source"):
         run(f"mkdir -p {site_folder}/{subfolder}")
 
@@ -58,7 +58,7 @@ def _update_database(source_folder):
 def deploy():
     site_folder = f"/home/{env.user}/sites/{env.host}"
     source_folder = f"{site_folder}/source"
-    _create_directory_structure_if_necessasy(site_folder)
+    _create_directory_structure_if_necessary(site_folder)
     _get_latest_source(source_folder)
     _update_settings(source_folder, env.host)
     _update_virtualenv(source_folder)
