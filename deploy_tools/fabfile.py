@@ -28,7 +28,7 @@ def _update_virtualenv(source_folder):
 def _update_settings(source_folder, host):
     settings_path = f"{source_folder}/superlist/settings.py"
     sed(settings_path, "DEBUG = True", "DEBUG = False")
-    sed(settings_path, "ALLOWED_HOSTS = .+$", f"ALLOWED_HOSTS = ['{host}']")
+    sed(settings_path, "ALLOWED_HOSTS =.+$", f'ALLOWED_HOSTS = ["{host.replace("www.", "")}"]')
 
     secret_key_file = f"{source_folder}/superlist/secret_key.py"
     if not exists(secret_key_file):
