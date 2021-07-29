@@ -8,3 +8,8 @@ mkdir -p ~/sites/$SITENAME/venv
 git clone https://github.com/miktuy/superlist.git ~/sites/$SITENAME/source
 ../venv/bin/python manage.py migrate --noinput
 
+
+# when systemd settings are created
+sudo systemctl daemon-reload
+sudo systemctl enable www.miktuy-stage.ru
+sudo systemctl start www.miktuy-stage.ru
