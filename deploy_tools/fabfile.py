@@ -28,7 +28,9 @@ def _update_virtualenv(source_folder):
 def _update_settings(source_folder, host):
     settings_path = f"{source_folder}/superlist/settings.py"
     sed(settings_path, "DEBUG = True", "DEBUG = False")
-    sed(settings_path, "ALLOWED_HOSTS = .+$", f"ALLOWED_HOSTS = ['{host}']")
+    sed(settings_path, "ALLOWED_HOSTS =.+$", f'ALLOWED_HOSTS = ["{host.replace("www.", "")}"]')
+    sed(settings_path, "../database/db.sqlite3", "../../database/db.sqlite3")
+    sed(settings_path, "\.\./static", "../../static")
 
     secret_key_file = f"{source_folder}/superlist/secret_key.py"
     if not exists(secret_key_file):
@@ -50,7 +52,9 @@ def _update_static_files(source_folder):
 
 def _update_database(source_folder):
     run(
-        f"cd {source_folder}"
+        f"pwd"
+        f" echo {source_folder}"
+        f" && cd {source_folder}"
         f" && ../venv/bin/python manage.py migrate --noinput"
     )
 
