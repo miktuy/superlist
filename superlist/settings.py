@@ -79,7 +79,7 @@ DATABASES = {
         'NAME': BASE_DIR / '../database/db.sqlite3',
     }
 }
-print(BASE_DIR / '../../database/db.sqlite3')
+print(Path(BASE_DIR / '../../database/db.sqlite3').resolve())
 
 
 # Password validation
