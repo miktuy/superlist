@@ -79,7 +79,7 @@ DATABASES = {
         'NAME': BASE_DIR / '../database/db.sqlite3',
     }
 }
-print(Path(BASE_DIR / '../../database/db.sqlite3').resolve())
+print(Path(BASE_DIR / '../database/db.sqlite3').resolve())
 
 
 # Password validation
@@ -118,8 +118,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '../static/'
-STATIC_ROOT = Path(BASE_DIR, '../../static').resolve()
+STATIC_URL = '/static/'
+STATIC_ROOT = Path(BASE_DIR, '../static').resolve()
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
