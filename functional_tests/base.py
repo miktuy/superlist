@@ -1,9 +1,10 @@
 import os
+import time
 from typing import Tuple, Any, Callable, Union, List
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, WebDriverException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
@@ -55,3 +56,13 @@ class FunctionalTest(StaticLiveServerTestCase):
         self, timeout: int = MAX_WAIT_S, poll_frequency: float = POLL_FREQUENCY_S
     ) -> WebDriverWait:
         return WebDriverWait(self.browser, timeout, poll_frequency)
+
+    def wait_for(self, fn: Callable):
+        start_time = time.time()
+        while True:
+            try:
+                return fn()
+            except (AssertionError, WebDriverException) as e:
+                if time.time() - start_time > MAX_WAIT_S:
+                    raise e
+            time.sleep(0.5)
